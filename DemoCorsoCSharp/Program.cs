@@ -1,41 +1,72 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using Bogus;
 using DemoCorsoCSharp;
 
 Console.WriteLine("Hello, World!");
 
-//var shapes = new List<Shape> {
-//    new Rectangle(),
-//    new Triangle(),
-//    new Circle()
-//};
+var customer = GetCustomer();
+Console.WriteLine(customer.EmailAddress);
 
-//foreach (var shape in shapes)
-//{
-//    shape.Draw();
-//}
+var cart = AddRandomProducts();
 
-//var product = new Product
-//{
-//    Name = "Video Game",
-//    CategoryId = 1
-//};
+//var cart2 = new List<IProductModel>();
 
-//var newProduct = product with { CategoryId = 2 };
+foreach (var product in cart)
+{
+    Console.WriteLine($"{product.Title} {product.HasOrderBeenCompleted}");
+    product.ShipItem(customer);
+}
 
-//var anotherProduct = newProduct with { CategoryId = 1 };
+CustomerModel GetCustomer()
+{
+    var faker = new Faker<CustomerModel>()
+        .StrictMode(true)
+        .RuleFor(c => c.Id,  f => f.Random.Number(1,1000))
+        .RuleFor(c => c.FirstName, f => f.Random.String(10, 'a', 'z'))
+        .RuleFor(c => c.LastName, f => f.Random.String(10, 'a', 'z'))
+        .RuleFor(c => c.City, f => f.Random.String(15, 'a', 'z'))
+        .RuleFor(c => c.EmailAddress, f => f.Internet.Email())
+        .RuleFor(c => c.Phone, f => f.Phone.PhoneNumber())
+        ;
 
-//var eq1 = product.Equals(anotherProduct);
-//Console.WriteLine(eq1);
+    return faker.Generate();
+}
 
-//var eq2 = product ==  anotherProduct;
-//Console.WriteLine(eq2);
 
-var product = new Product("Video Game", 1);
-//string? a = "";
-//int b = 0;
+List<PhysicalProductModel> AddRandomPhysicalProducts()
+{
+    var faker = new Faker<PhysicalProductModel>()
+       .StrictMode(true)
+       .RuleFor(c => c.Title, f => f.Random.String(10, 'a', 'z'))
+       .RuleFor(c => c.HasOrderBeenCompleted, f => false);
 
-//product.Deconstruct(out a, out b);
-//Console.WriteLine(b);
+    var lista = new List<PhysicalProductModel>();
+    for (int i = 1; i < 50; i++)
+    {
+        lista.Add(faker.Generate());
+    }
+    return lista;
+}
 
-var (a, b) = product;
-Console.WriteLine(b);
+
+List<IProductModel> AddRandomProducts() {
+    var faker = new Faker<PhysicalProductModel>()
+       .StrictMode(true)
+       .RuleFor(c => c.Title, f => f.Random.String(10, 'a', 'z'))
+       .RuleFor(c => c.HasOrderBeenCompleted, f => false);
+
+    var fakerDigital = new Faker<DigitalProductModel>()
+       .StrictMode(true)
+       .RuleFor(c => c.Title, f => f.Random.String(10, 'a', 'z'))
+       .RuleFor(c => c.HasOrderBeenCompleted, f => false)
+       .RuleFor(c => c.TotalDownloadLeft, f => 5);
+
+
+    var lista = new List<IProductModel>();
+    for (int i = 1; i < 25; i++)
+    {
+        lista.Add(faker.Generate());
+        lista.Add(fakerDigital.Generate());
+    }
+    return lista;
+}

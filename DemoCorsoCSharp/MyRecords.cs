@@ -17,4 +17,16 @@
 //        => (name, categoryId) = (Name, CategoryId);
 //}
 
-public record Product(string? Name, int CategoryId);
+//public record Product(string? Name, int CategoryId);
+
+//public record ProductSpecial
+//{
+//    public string? Name { get; init; }
+//    public int CategoryId { get; init; }
+//}
+
+
+//public record Book : ProductSpecial
+//{
+//    public string? ISBN { get; init; }
+//}
