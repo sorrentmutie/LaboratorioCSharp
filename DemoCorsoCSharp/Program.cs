@@ -71,12 +71,12 @@
 //    return lista;
 //}
 
-using DemoCorsoCSharp;
+//using DemoCorsoCSharp;
 
-ICollidable collidable = new Solid();
-IUpdatable updatable = new Movable();
-IVisible visible = new Visible();
-var mago = new Mago(collidable, updatable, visible);
-mago.Paint();
-mago.Collide();
-mago.Update();
+//ICollidable collidable = new Solid();
+//IUpdatable updatable = new Movable();
+//IVisible visible = new Visible();
+//var mago = new Mago(collidable, updatable, visible);
+//mago.Paint();
+//mago.Collide();
+//mago.Update();
