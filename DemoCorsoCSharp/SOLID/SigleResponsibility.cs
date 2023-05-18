@@ -72,9 +72,7 @@ public class Invoice
 //        logger = new LoggerOnTextFile();
     }
 
-   
-
-
+  
     public void AddInvoice()
     {
         // tutta la logica di gestione dell'invoice

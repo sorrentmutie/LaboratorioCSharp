@@ -80,3 +80,86 @@
 //mago.Paint();
 //mago.Collide();
 //mago.Update();
+
+
+//using DemoCorsoCSharp.SOLID;
+
+//OpenInvoice firstInvoice = new ProposedInvoice();
+//OpenInvoice secondInvoice = new FinalInvoice();
+//OpenInvoice thirdInvoice= new SpecialInvoice();
+
+//using DemoCorsoCSharp.SOLID;
+
+////Apple apple = new Orange();
+////Console.WriteLine(apple.GetColor());
+
+//Fruit fruit = new Orange();
+//Console.WriteLine(fruit.GetColor());
+//fruit = new Apple();
+//Console.WriteLine(fruit.GetColor());
+
+//using DemoCorsoCSharp.SOLID;
+
+//var manager = new EmployeeManager();
+//manager.AddEmployee(new Employee { Name = "Luisa Bianchi", Gender = Gender.Female, Position = Position.Administrator });
+//manager.AddEmployee(new Employee { Name = "Mario Bianchi", Gender = Gender.Male, Position = Position.Administrator });
+
+
+//var statistics = new EmployeeStatistics(manager);
+//Console.WriteLine(statistics.CountFemaleManager());
+
+using DemoCorsoCSharp.DTO;
+using DemoCorsoCSharp.Models;
+using Microsoft.EntityFrameworkCore;
+
+var database = new NorthwindContext();
+
+var categories = await database.Categories
+    .Include(c => c.Products)
+    .ThenInclude(p => p.Supplier)
+    .Select(c => new DTOCategoria
+    {
+         Id = c.CategoryId, Nome = c.CategoryName, NumeroProdotti = c.Products.Count
+         , Prodotti = c.Products.Select( 
+             p => new DTOProdotto { Id = p.ProductId,
+                Nome = p.ProductName, Fornitore = p.Supplier.CompanyName})
+    })
+    .ToListAsync();
+
+//foreach (var category in categories)
+//{
+//    Console.WriteLine("Category: " + category.CategoryName);
+//	foreach (var product in category.Products)
+//	{
+//        Console.WriteLine($"====== {product.ProductName}");
+//        Console.WriteLine($"{product.Supplier.CompanyName}");
+//    }
+//}
+
+foreach (var category in categories)
+{
+    Console.WriteLine($"{category.Nome} {category.NumeroProdotti}");
+    if(category.Prodotti != null)
+    {
+        foreach (var product in category.Prodotti)
+        {
+            Console.WriteLine($"{product.Nome} {product.Fornitore}");
+        }
+    }
+}
+
+var prods = new List<Product>();
+prods.Add(new Product { ProductName = "1prodottoProva", SupplierId = 10 });
+
+var newCategory = new Category
+{
+    CategoryName = "BlaBla",
+    Description = "Descrizione prova prova",
+    Products = prods
+};
+
+database.Categories.Add(newCategory);
+await database.SaveChangesAsync();
+
+
+
