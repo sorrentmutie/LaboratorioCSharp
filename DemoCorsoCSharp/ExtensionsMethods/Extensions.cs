@@ -6,13 +6,14 @@ namespace DemoCorsoCSharp.ExtensionsMethods;
 
 public static class Extensions
 {
-    public static IQueryable<DTOCategoria>? ConvertToDTO(this DbSet<Category> categories)
+    public static IQueryable<DTOCategoria>? ConvertToDTO(this List<Category> categories)
     {
-        var data = categories.Include(c => c.Products)
-           .ThenInclude(p => p.Supplier)
+        var data = categories
+           // .Include(c => c.Products)
+           //.ThenInclude(p => p.Supplier)
            .Select(c => new DTOCategoria
            {
-               Id = c.CategoryId,
+               Id = c.Id,
                Nome = c.CategoryName,
                NumeroProdotti = c.Products.Count
                 ,
@@ -21,17 +22,17 @@ public static class Extensions
                     {
                         Id = p.ProductId,
                         Nome = p.ProductName,
-                        Fornitore = p.Supplier.CompanyName
+                        Fornitore = p.Supplier != null ? p.Supplier.CompanyName : ""
                     })
            });
-        return data;
+        return data.AsQueryable();
     }
 
     public static Category ConvertFromDTO(this DTOCreaCategoria categoria)
     {
         var category = new Category
         {
-            CategoryId = categoria.Id,
+            Id = categoria.Id,
             CategoryName = categoria.Nome,
             Description = categoria.Descrizione
         };

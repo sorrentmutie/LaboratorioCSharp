@@ -1,14 +1,18 @@
-﻿using DemoCorsoCSharp.Models;
+﻿using DemoCorsoCSharp.Infrastructure;
+using DemoCorsoCSharp.Models;
 using DemoCorsoCSharp.Repositories;
 using DemoCorsoCSharp.WorkerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using IHost host = Host.CreateDefaultBuilder()
     .ConfigureServices( services =>
     {
-        services.AddDbContext<NorthwindContext>();
-        services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
+        services.AddSingleton<DbContext, NorthwindContext>();
+       // services.AddDbContext<NorthwindContext>();
+       // services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
+       services.AddSingleton<IRepository<Category, int>, EFRepository<Category, int>>();
         services.AddSingleton<ICategoriesWorkerService, CategoriesWorkerService>();
     })
     .Build();
@@ -35,7 +39,7 @@ if(categories != null)
         {
             foreach (var product in category.Prodotti)
             {
-                Console.WriteLine($"{product.Nome} {product.Fornitore}");
+                Console.WriteLine($"{product?.Nome} {product?.Fornitore}");
             }
         }
     }

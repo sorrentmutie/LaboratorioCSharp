@@ -17,16 +17,17 @@ public class CategoriesRepository : ICategoriesRepository
 
     public async Task<List<DTOCategoria>?> GetAll()
     {
-        if (database != null)
-        {
-            var categories = database.Categories.ConvertToDTO();
-            if (categories != null)
-            {
-                var data = await categories.ToListAsync();
-                return data;
-            }
-        }
-        return null;
+        //if (database != null)
+        //{
+        //    var categories = database.Categories.ConvertToDTO();
+        //    if (categories != null)
+        //    {
+        //        var data = await categories.ToListAsync();
+        //        return data;
+        //    }
+        //}
+        //return null;
+        throw new NotImplementedException();
     }
 
     public async Task Create(DTOCreaCategoria dTOCreaCategoria)
