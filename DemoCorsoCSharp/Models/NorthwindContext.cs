@@ -323,7 +323,7 @@ public partial class NorthwindContext : DbContext
 
             entity.HasIndex(e => e.PostalCode, "PostalCode");
 
-            entity.Property(e => e.SupplierId).HasColumnName("SupplierID");
+            entity.Property(e => e.Id).HasColumnName("SupplierID");
             entity.Property(e => e.Address).HasMaxLength(60);
             entity.Property(e => e.City).HasMaxLength(15);
             entity.Property(e => e.CompanyName)

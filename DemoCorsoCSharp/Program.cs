@@ -13,7 +13,10 @@ using IHost host = Host.CreateDefaultBuilder()
        // services.AddDbContext<NorthwindContext>();
        // services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
        services.AddSingleton<IRepository<Category, int>, EFRepository<Category, int>>();
-        services.AddSingleton<ICategoriesWorkerService, CategoriesWorkerService>();
+       services.AddSingleton<IRepository<Supplier, int>,   EFRepository<Supplier, int> > ();
+       services.AddSingleton<ICategoriesWorkerService, CategoriesWorkerService>();
+       services.AddSingleton<ISuppliersWorkerService, SupplierWorkerService>();
+       services.AddTransient<IProblematicSuppliers, RandomProblematicSupplier>();
     })
     .Build();
 
@@ -29,21 +32,21 @@ var categoriesWorkerService = host.Services.GetRequiredService<ICategoriesWorker
 
 
 
-var categories = await categoriesWorkerService.GetAll();
-if(categories != null)
-{
-    foreach (var category in categories)
-    {
-        Console.WriteLine($"{category.Nome} {category.NumeroProdotti}");
-        if (category.Prodotti != null)
-        {
-            foreach (var product in category.Prodotti)
-            {
-                Console.WriteLine($"{product?.Nome} {product?.Fornitore}");
-            }
-        }
-    }
-}
+//var categories = await categoriesWorkerService.GetAll();
+//if(categories != null)
+//{
+//    foreach (var category in categories)
+//    {
+//        Console.WriteLine($"{category.Nome} {category.NumeroProdotti}");
+//        if (category.Prodotti != null)
+//        {
+//            foreach (var product in category.Prodotti)
+//            {
+//                Console.WriteLine($"{product?.Nome} {product?.Fornitore}");
+//            }
+//        }
+//    }
+//}
 
 //var prods = new List<DTOCreaProdotto>();
 //prods.Add(new DTOCreaProdotto() { Nome = "4prodottoProva", PrezzoUnitario = 25.0M, ScortaMagazzino = 22,
@@ -58,7 +61,7 @@ if(categories != null)
 
 
 //await repo.Create(newCategory);
-Console.WriteLine("Scrittura completata");
+//Console.WriteLine("Scrittura completata");
 
 
 //public interface IDataRepository<T>
@@ -69,3 +72,13 @@ Console.WriteLine("Scrittura completata");
 //    void Update(T item);
 //    void Delete(T item);
 //}
+
+var supplierWorkerService = host.Services.GetRequiredService<ISuppliersWorkerService>();
+var suppliers = await supplierWorkerService.GetAll();
+if(suppliers != null)
+{
+    foreach (var supplier in suppliers)
+    {
+        Console.WriteLine(supplier.ToString());
+    }
+}
