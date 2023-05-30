@@ -1,16 +1,34 @@
-﻿using DemoCorsoCSharp.DTO;
-using DemoCorsoCSharp.Models;
-using Microsoft.EntityFrameworkCore;
-using DemoCorsoCSharp.ExtensionsMethods;
+﻿using DemoCorsoCSharp.Models;
+using DemoCorsoCSharp.Repositories;
+using DemoCorsoCSharp.WorkerServices;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-var database = new NorthwindContext();
+using IHost host = Host.CreateDefaultBuilder()
+    .ConfigureServices( services =>
+    {
+        services.AddDbContext<NorthwindContext>();
+        services.AddSingleton<ICategoriesRepository, CategoriesRepository>();
+        services.AddSingleton<ICategoriesWorkerService, CategoriesWorkerService>();
+    })
+    .Build();
 
-var categories = database.Categories.ConvertToDTO();
+await host.StartAsync();
 
+
+var categoriesWorkerService = host.Services.GetRequiredService<ICategoriesWorkerService>();
+
+
+//var database = new NorthwindContext();
+//ICategoriesRepository repo = new CategoriesRepository(database);
+//ICategoriesWorkerService categoriesWorkerService = new CategoriesWorkerService(repo);
+
+
+
+var categories = await categoriesWorkerService.GetAll();
 if(categories != null)
 {
-    var data = await categories.ToListAsync();
-    foreach (var category in data)
+    foreach (var category in categories)
     {
         Console.WriteLine($"{category.Nome} {category.NumeroProdotti}");
         if (category.Prodotti != null)
@@ -23,41 +41,19 @@ if(categories != null)
     }
 }
 
-//foreach (var category in categories)
+//var prods = new List<DTOCreaProdotto>();
+//prods.Add(new DTOCreaProdotto() { Nome = "4prodottoProva", PrezzoUnitario = 25.0M, ScortaMagazzino = 22,
+// IdFornitore = 10});
+
+//var newCategory = new DTOCreaCategoria
 //{
-//    Console.WriteLine("Category: " + category.CategoryName);
-//	foreach (var product in category.Products)
-//	{
-//        Console.WriteLine($"====== {product.ProductName}");
-//        Console.WriteLine($"{product.Supplier.CompanyName}");
-//    }
-//}
-
-
-
-//var prods = new List<Product>();
-//prods.Add(new Product { ProductName = "1prodottoProva", SupplierId = 10 });
-
-//var newCategory = new Category
-//{
-//    CategoryName = "BlaBla",
-//    Description = "Descrizione prova prova",
-//    Products = prods
+//    Nome = "Nuova Categoria",
+//    Descrizione = "Nuova Descrizione",
+//    Prodotti = prods
 //};
 
-var prods = new List<DTOCreaProdotto>();
-prods.Add(new DTOCreaProdotto() { Nome = "2prodottoProva", PrezzoUnitario = 15.0M, ScortaMagazzino = 12,
- IdFornitore = 10});
 
-var newCategory = new DTOCreaCategoria
-{
-    Nome = "Nuova Categoria",
-    Descrizione = "Nuova Descrizione",
-    Prodotti = prods
-};
-
-database.Categories.Add(newCategory.ConvertFromDTO());
-await database.SaveChangesAsync();
+//await repo.Create(newCategory);
 Console.WriteLine("Scrittura completata");
 
 

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoCorsoCSharp", "DemoCorsoCSharp.csproj", "{E442CFA1-0C87-4457-A5E4-5C1C8BF02F85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoCorsoCSharp", "DemoCorsoCSharp.csproj", "{E442CFA1-0C87-4457-A5E4-5C1C8BF02F85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoCorsoCSharp.Tests", "..\DemoCorsoCSharp.Tests\DemoCorsoCSharp.Tests.csproj", "{AF9DE5BE-3BEC-4CAA-83BC-870384326DAA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E442CFA1-0C87-4457-A5E4-5C1C8BF02F85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E442CFA1-0C87-4457-A5E4-5C1C8BF02F85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E442CFA1-0C87-4457-A5E4-5C1C8BF02F85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9DE5BE-3BEC-4CAA-83BC-870384326DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9DE5BE-3BEC-4CAA-83BC-870384326DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9DE5BE-3BEC-4CAA-83BC-870384326DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9DE5BE-3BEC-4CAA-83BC-870384326DAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
