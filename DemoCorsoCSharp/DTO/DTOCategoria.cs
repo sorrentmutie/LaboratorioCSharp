@@ -14,3 +14,23 @@ public class DTOProdotto
     public string? Nome { get; set;}
     public string? Fornitore { get; set; }
 }
+
+public class DTOCreaProdotto
+{
+    public int Id { get; set; }
+    public int IdFornitore { get; set; }
+    public string? Nome { get; set;}
+    public decimal? PrezzoUnitario { get; set; }
+    public short? ScortaMagazzino { get; set; }
+
+}
+
+public class DTOCreaCategoria
+{
+    public int Id { get; set; }
+
+    public string? Nome { get; set; }
+
+    public string? Descrizione { get; set; }
+    public IEnumerable<DTOCreaProdotto>? Prodotti { get; set; }
+}
